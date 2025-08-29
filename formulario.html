@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitação de Compra/Pagamento</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+
+
+        .right-section {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .form-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .form-subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .required {
+            color: #ff6b35;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            font-size: 14px;
+            background-color: #f9f9f9;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #ff6b35;
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #ff6b35, #ff8c42);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .error-message {
+            color: #ff6b35;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="right-section">
+            <div class="form-title">Preencha o(s) campo(s) abaixo</div>
+            <div class="form-subtitle">para efetuar a sua solicitação</div>
+            <div class="form-subtitle" style="font-style: italic;">* Campo obrigatório</div>
+
+            <div class="success-message" id="successMessage">
+                Solicitação enviada com sucesso!
+            </div>
+
+            <form id="solicitacaoForm">
+                <div class="form-group">
+                    <label for="solicitante">Solicitante<span class="required">*</span></label>
+                    <input type="text" id="solicitante" name="solicitante" required>
+                    <div class="error-message">Campo obrigatório</div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="solicitadoEm">Solicitado Em<span class="required">*</span></label>
+                        <input type="date" id="solicitadoEm" name="solicitadoEm" required>
+                        <div class="error-message">Campo obrigatório</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="vencimento">Vencimento<span class="required">*</span></label>
+                        <input type="date" id="vencimento" name="vencimento" required>
+                        <div class="error-message">Campo obrigatório</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="favorecido">Favorecido<span class="required">*</span></label>
+                    <input type="text" id="favorecido" name="favorecido" required>
+                    <div class="error-message">Campo obrigatório</div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="centroCusto">Centro de Custo<span class="required">*</span></label>
+                        <select id="centroCusto" name="centroCusto" required>
+                            <option value="">Selecione...</option>
+                            <option value="Financeiro">Financeiro</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Vendas">Vendas</option>
+                            <option value="Operações">Operações</option>
+                            <option value="TI">TI</option>
+                            <option value="RH">RH</option>
+                        </select>
+                        <div class="error-message">Campo obrigatório</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="linhaOrcamento">Linha Orçamento<span class="required">*</span></label>
+                        <input type="text" id="linhaOrcamento" name="linhaOrcamento" required>
+                        <div class="error-message">Campo obrigatório</div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="competencia">Competência<span class="required">*</span></label>
+                        <input type="month" id="competencia" name="competencia" required>
+                        <div class="error-message">Campo obrigatório</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="formaPagamento">Forma de Pagamento<span class="required">*</span></label>
+                        <select id="formaPagamento" name="formaPagamento" required>
+                            <option value="">Selecione...</option>
+                            <option value="Boleto 30 dias">Boleto 30 dias</option>
+                            <option value="Boleto 60 dias">Boleto 60 dias</option>
+                            <option value="Cartão de Crédito">Cartão de Crédito</option>
+                            <option value="Transferência">Transferência</option>
+                            <option value="Dinheiro">Dinheiro</option>
+                            <option value="Pix">Pix</option>
+                        </select>
+                        <div class="error-message">Campo obrigatório</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="detalhamento">Detalhamento<span class="required">*</span></label>
+                    <textarea id="detalhamento" name="detalhamento" placeholder="Descreva o produto ou serviço..." required></textarea>
+                    <div class="error-message">Campo obrigatório</div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="quantidade">Quantidade<span class="required">*</span></label>
+                        <input type="number" id="quantidade" name="quantidade" min="1" required>
+                        <div class="error-message">Campo obrigatório</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="valorUnitario">Valor Unitário (R$)<span class="required">*</span></label>
+                        <input type="number" id="valorUnitario" name="valorUnitario" step="0.01" min="0" required>
+                        <div class="error-message">Campo obrigatório</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="descricaoJustificativa">Descrição/Justificativa<span class="required">*</span></label>
+                    <textarea id="descricaoJustificativa" name="descricaoJustificativa" placeholder="Justifique a necessidade da compra..." required></textarea>
+                    <div class="error-message">Campo obrigatório</div>
+                </div>
+
+                <button type="submit" class="submit-btn">Enviar Solicitação</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('solicitacaoForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Limpar mensagens de erro anteriores
+            const errorMessages = document.querySelectorAll('.error-message');
+            errorMessages.forEach(msg => msg.style.display = 'none');
+            
+            // Coletar dados do formulário
+            const formData = new FormData(this);
+            const data = {
+                Solicitante: formData.get('solicitante'),
+                SolicitadoEm: formData.get('solicitadoEm'),
+                Vencimento: formData.get('vencimento'),
+                Favorecido: formData.get('favorecido'),
+                CentroCusto: formData.get('centroCusto'),
+                LinhaOrcamento: formData.get('linhaOrcamento'),
+                Competencia: formData.get('competencia') + '-01', // Adiciona dia para formar data completa
+                FormaPagamento: formData.get('formaPagamento'),
+                Detalhamento: formData.get('detalhamento'),
+                Quantidade: parseInt(formData.get('quantidade')),
+                ValorUnitario: parseFloat(formData.get('valorUnitario')),
+                DescricaoJustificativa: formData.get('descricaoJustificativa')
+            };
+            
+            // Validar campos obrigatórios
+            let hasErrors = false;
+            for (const [key, value] of Object.entries(data)) {
+                if (!value || value === '') {
+                    hasErrors = true;
+                    const fieldName = key.charAt(0).toLowerCase() + key.slice(1);
+                    const field = document.querySelector(`[name="${fieldName}"]`);
+                    if (field) {
+                        const errorMsg = field.parentNode.querySelector('.error-message');
+                        if (errorMsg) {
+                            errorMsg.style.display = 'block';
+                        }
+                    }
+                }
+            }
+            
+            if (hasErrors) {
+                return;
+            }
+            
+            // Desabilitar botão durante envio
+            const submitBtn = document.querySelector('.submit-btn');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Enviando...';
+            submitBtn.disabled = true;
+            
+            try {
+                // Enviar para webhook
+                const response = await fetch('https://mentally-bursting-grouper.ngrok-free.app/webhook-test/c380e20a-6277-4b48-87f3-bccdeda00c57', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                if (response.ok) {
+                    // Mostrar mensagem de sucesso
+                    document.getElementById('successMessage').style.display = 'block';
+                    // Limpar formulário
+                    this.reset();
+                    // Scroll para o topo
+                    window.scrollTo(0, 0);
+                } else {
+                    throw new Error('Erro no envio');
+                }
+            } catch (error) {
+                alert('Erro ao enviar solicitação. Tente novamente.');
+                console.error('Erro:', error);
+            } finally {
+                // Reabilitar botão
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+
+        // Definir data atual como padrão para "Solicitado Em"
+        document.getElementById('solicitadoEm').valueAsDate = new Date();
+    </script>
+</body>
+</html>
+
